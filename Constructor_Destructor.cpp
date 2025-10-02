@@ -5,6 +5,13 @@
 // Hàm hủy -> Được gọi khi đối tượng rời khỏi các hàm mà nó được khởi tạo 
 //         -> Không có thuộc tính Overload Function
 //         -> Khá hiệu quả trong việc giải phóng bộ nhớ được cấp phát động 
+// Hàm bạn -> Nếu một phương thức được xây dựng bên ngoài class thay vì bên trong public thì phương thức này không thể 
+//         truy cập vào trong các thuộc tính của đối tượng được cho dù ta truyền tham số là đối tượng vào 
+//         khi đó ta cần khai báo hàm đó là hàm bạn ( friend function_name (){}) trong public của class để có thể truy 
+//         cập các thuộc tính trong private một cách thoải mái 
+// Con trỏ this -> Trong lớp ( public chẳng hạn ) con trỏ this sẽ có tác dụng trỏ đến các thuộc tính của lớp ( kể cả private)
+//              nên khi dùng toán tử truy cập phạm vi con trỏ quản lí this->... bạn có thể truy cập đến giá trị của các thuộc tính 
+//              ( thường dùng khi các tham số của hàm tạo đặt trùng tên với thuộc tính )
 
 #include <iostream>
 
