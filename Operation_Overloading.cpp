@@ -9,97 +9,51 @@
 // -> Còn hàm hủy gần như chỉ dùng để giải phóng vùng nhớ 
 
 
+// Operation Overloading 
+// some basic syntax 
+// 1. istream& operator >> (istream &in, SinhVien a) {... return in;}
+// 2. ostream& operator << (ostream &out, SinhVien a) {... return out;}
+// Remember that with each operator -> the parameter is also fixed 
+// For ex: operator + require exactly 2 parameter ( a+b -> need just a and b to execute )
+
 #include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-class Node{
+class SinhVien{
     private:
-        int val;
-        Node *next;
+        string Name;
+        int MSV;
+        float GPA;
     public:
-        Node(int val){
-            this->val = val; 
-            //this->next = NULL;
-        }
-        // Ở đây thay vì sử dụng hàm tạo ta hoàn toàn có thể nạp chồng toán tử cin >> 
-        // để vừa in prompt ra màn hình cho người nhập sử dụng, vừa gán giá trị chỉ bằng một cú pháp đơn giản 
-        friend void Create_List(Node **, int);
-        friend void Display_List(Node*);
-        friend Node* Find_Element(Node*,int);
+        SinhVien(){};
+        friend istream& operator >> (istream &in, SinhVien &S);
+        friend ostream& operator << (ostream &out, SinhVien S);
 };
 
-//Node *START = NULL; 
-// Khởi tạo một con trỏ trỏ vào đổi tượng Node thì hàm tạo không hề được gọi nên gán giá trị thoải mái 
-// Chỉ khi nào khởi tạo một đối tượng mới thì hàm tạo mới được gọi 
-// Ví dụ *START = new Node(12); -> Khi này một đối tượng Node được tạo ra với thuộc tính giá trị bằng 12 và con trỏ kế tiếp = NULL
-// và nó được quản lí bởi con trỏ START 
-void Create_List(Node **START, int n)
+istream& operator >> (istream &in, SinhVien &S)
 {
-    int val;
-    cout << endl << "Nhap thong tin danh sach: " << endl;
-    for(int i=0;i<n;i++)
-    {
-        cout << "Nhap phan tu thu " << i+1 << " : ";
-        cin >> val;
-        Node *new_node = new Node(val);
-        if(*START == NULL)
-        {
-            *START = new_node;
-            new_node->next = NULL;
-        }
-        else{
-            Node *ptr = *START;
-            while(ptr->next != NULL)
-            {
-                ptr=ptr->next;
-            }
-            ptr->next = new_node; 
-            if(i != (n-1)) new_node -> next = NULL;
-            else new_node->next = *START; 
-        }
-    }
+    cout << "Nhap ho ten sinh vien: ";
+    getline(in, S.Name);
+    cout << "Nhap MSV: ";
+    in >> S.MSV;
+    cout << "Nhap GPA: ";
+    in >> S.GPA;
+    cin.ignore();
+    return in;
 }
-Node* Find_Element(Node *START, int val)
+ostream& operator << (ostream &out, SinhVien S)
 {
-    Node *ptr = START->next;
-    while(ptr != START)
-    {
-        if(ptr -> val == val)
-            return ptr; 
-        ptr = ptr->next;
-    }
-    throw "Can't find ";
-}
-void Display_List(Node *START)
-{
-    Node *ptr = START;
-    cout << ptr->val << " ";
-    ptr = ptr->next; 
-    while(ptr != START)
-    {
-        cout << ptr -> val << " ";
-        ptr = ptr->next;
-    } 
+    out << "Ten sinh vien la: " << S.Name << endl;
+    out << "MSV: " << S.MSV << endl;
+    out << "GPA: " << S.GPA << endl;
+    return out;
+
 }
 int main()
 {
-    int n;
-    int val;
-    Node *START = NULL;
-    cout << "Enter the volumn of the list: ";
-    cin >> n;
-    cout << "Enter the value for the begining of iteration: ";
-    cin >> val;
-    Create_List(&START,n);
-    Display_List(START);
-    cout << endl;
-    try{
-        Node *ptr = Find_Element(START, val);
-        Display_List(ptr);
-    }
-    catch (char const* allert)
-    {
-        cout << allert << val << " in the list" << endl; 
-    }   
+    SinhVien S;
+    cin >> S;
+    cout << S; 
 }
